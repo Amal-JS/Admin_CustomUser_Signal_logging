@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Admin Login
+{% endblock %}
+
+{% block content %}
+
+<h2 class="text-start mx-3">Admin Login</h2>
+
+<form method="POST" >
+    {% csrf_token %}
+ 
+    
+
+    <div class="form-group m-3 d-flex">
+        <input type="text" name="username" placeholder="Enter Username">
+    </div>
+
+    <div class="form-group m-3 d-flex">
+        <input type="password" name="password" placeholder="Enter Password">
+    </div>
+    
+
+        {% if messages %}
+        <ul class="messages mt-4">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+            <div class="w-50">
+        <div class="text-start mx-3 w-50">
+
+    <button type="submit" class="btn text-white btn-success">Login</button>
+</div></div>
+
+
+
+
+</form>
+
+
+<a href="{% url 'user_app:index' %}" class="btn btn-primary m-4"> Go to start</a>
+
+
+
+
+{% endblock %}

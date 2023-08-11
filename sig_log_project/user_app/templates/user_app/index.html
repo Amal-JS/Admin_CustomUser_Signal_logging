@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+Welcome
+
+
+{% endblock %}
+
+{% block content %}
+
+
+
+
+<div class="text-center">
+
+    <a href="{% url 'admin_app:admin_login' %}"  class="btn btn-secondary">Admin Login</a >
+    <a href="{% url 'user_app:user_login' %}" class="btn btn-success">User Login</a >
+    <a href="{% url 'user_app:create_account' %}"  class="btn btn-warning">Create User Account</a >
+    <a href="{% url 'user_app:home' %}"  class="btn btn-secondary">Go to Home</a >
+
+
+
+</div>
+
+
+{% endblock %}
