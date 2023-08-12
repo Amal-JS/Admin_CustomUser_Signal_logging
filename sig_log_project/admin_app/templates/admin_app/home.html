@@ -1,132 +1,206 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin interface</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+      .container {
+        display: flex;
+        justify-content: space-between;
+      }
+      .hidden {
+        display: none;
+      }
 
-{% block title %}
-Home
-{% endblock %}
-{% block content %}
+      .option{
 
+        width:15rem;
+        height: 5rem;
+        font-size: 1.5rem;
+        font-weight: 500;
+        text-align: left;
 
+      }
 
-<h1> Admin Home</h1> 
-<a class="btn btn-danger" href="{% url 'admin_app:admin_login' %}">Logout</a>
+      .option:hover {
+    background-color: transparent;
+    color: inherit;
+    border-color: transparent;
+  }
 
-<div class="border border-primary mt-5">
+  .option:active {
+    background-color: transparent !important;
+    border-color: transparent !important;
+  }
 
+    </style>
 
-    <h2 class="text-center text-info mt-5">User Info</h2>
-    <a class="btn btn-secondary m-4" href="{% url 'admin_app:admin_create_user' %}">Create User</a>
-    
+  </head>
+<body>
+    <div class="conatiner-fluid">
+        <div class="row bg-dark p-4" >
+            <div class="col-12 text-center">
+                <h2 class="text-white">Admin </h2>
+
+            </div>
+            <div class=" col-12 d-flex justify-content-between">
+              <a class="btn btn-primary text-white">Administrator Name : {{request.user.username}}</a>
+              <a class="btn btn-danger" href="{% url 'admin_app:admin_login' %}">Logout</a>
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-between p-3">
+            <div class="col-2">
+
+                
+                <div class="p-3">   <button id="btn1" class="btn btn-light option " >Users</button></div>  
+                <div class="p-3"><button id="btn2" class="btn btn-light option">Log</button></div>
+              </div>
+                
+             
+
+            <div class="col-9 main-div">
+
+              <a class="btn btn-success m-4" href="{% url 'admin_app:admin_create_user' %}">Create User</a>
+                
+              <div id="usr">
     <table class="table table-striped  table-hover table-bordered border-secondary  p-2  my-5">
-        <thead>
-          <tr class="p-2">
-            <th scope="col">User Id</th>
-            <th scope="col">Username</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Email</th>
-            <th scope="col">Super user</th>
-            <th scope="col">Update</th>
-            <th scope="col">Created</th>
-            <th scope="col"></th>
-            
-          </tr>
-        </thead>
-    
-        <tbody class="p-3">
-    
-            {% if users %}
-            {% for user in users %}
-            <tr class="">
-              <th scope="row">{{user.id}}</th>
-              
-              <td>{{user.username}}</td>
-              <td>{{user.phone}}</td>
-              <td>{{user.email}}</td>
-              <td>{{user.is_super_user}}</td>
-              <td>{{user.updated}}</td>
-              <td>{{user.created}}</td>
-              <td class="d-flex justify-content-between"> <a href="{% url 'admin_app:admin_update_user' user.id %}" class="btn btn-warning">Update</a>
-                <a href="{% url 'admin_app:admin_delete_user' user.id %}" class="btn btn-info">Delete</a>
-            </td>
-              
-              
-    
-            </tr>
-    
-            {% endfor %}
-            
-    
-            {% endif %}
-    </tbody>
-    
-    
-    </table>
-
-</div>
-
-
-
-
-<div class="border border-danger mt-5">
-
-
-    <h2 class="text-center text-info mt-5">User Log </h2>
-
-    
-    <table class="table table-striped  table-hover table-bordered border-secondary  p-2  my-5">
-        <thead>
-          <tr class="p-2">
-            
-            <th scope="col">Username</th>
-            <th scope="col">Activity</th>
-            <th scope="col">Time</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Email</th>
+      <thead>
+        <tr class="p-2">
+          <th scope="col">User Id</th>
+          <th scope="col">Username</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Email</th>
+          <th scope="col">Super user</th>
+          <th scope="col">Update</th>
+          <th scope="col">Created</th>
+          <th scope="col"></th>
           
+        </tr>
+      </thead>
+  
+      <tbody class="p-3">
+  
+          {% if users %}
+          {% for user in users %}
+          <tr class="">
+            <th scope="row">{{user.id}}</th>
+            
+            <td>{{user.username}}</td>
+            <td>{{user.phone_number}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.is_super_user}}</td>
+            <td>{{user.updated}}</td>
+            <td>{{user.created}}</td>
+            <td class="d-flex justify-content-between"> <a href="{% url 'admin_app:admin_update_user' user.id %}" class="btn btn-warning mx-1">Update</a>
+              <a href="{% url 'admin_app:admin_delete_user' user.id %}" class="btn btn-info">Delete</a>
+          </td>
             
             
+  
           </tr>
-        </thead>
-    
-        <tbody class="p-3">
-    
-            {% if log_users_info %}
-            {% for user in log_users_info %}
-            <tr class="">
-              <th scope="row">{{user.username}}</th>
-              
-              <td>{{user.activity}}</td>
-              <td>{{user.time}}</td>
-              <td>{{user.phone}}</td>
-              <td>{{user.email}}</td>
-              
-             
-              
-             
-              
-    
-            </tr>
+  
+          {% endfor %}
+          
+  
+          {% endif %}
+  </tbody>
+  
+  
+  </table>
+
+</div>
 
 
-            {% empty %}
-    
-            <h2>No logging info</h2>
+<div id="log">
 
-            {% endfor %}
+    
+  <table class="table table-striped  table-hover table-bordered border-secondary  p-2  my-5">
+      <thead>
+        <tr class="p-2">
+          
+          <th scope="col">Username</th>
+          <th scope="col">Activity</th>
+          <th scope="col">Time</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Email</th>
+        
+          
+          
+        </tr>
+      </thead>
+  
+      <tbody class="p-3">
+  
+          {% if log_users_info %}
+          {% for user in log_users_info %}
+          <tr class="">
+            <th scope="row">{{user.username}}</th>
             
-    
-            {% endif %}
-    </tbody>
-    
-    
-    </table>
+            <td>{{user.activity}}</td>
+            <td>{{user.time}}</td>
+            <td>{{user.phone_number}}</td>
+            <td>{{user.email}}</td>
+            
+           
+            
+           
+            
+  
+          </tr>
 
+
+          {% empty %}
+  
+          <h2>No logging info</h2>
+
+          {% endfor %}
+          
+  
+          {% endif %}
+  </tbody>
+  
+  
+  </table>
+</div>
+            </div>
+        </div>
+    </div>
+
+
+  </div>
+    
 </div>
 
 
 
 
+<script>
+  const div1 = document.getElementById('usr');
+  const div2 = document.getElementById('log');
+  const btn1 = document.getElementById('btn1');
+  const btn2 = document.getElementById('btn2');
 
-{% endblock %}
+  btn1.addEventListener('click', () => {
+    div1.classList.remove('hidden');
+    div2.classList.add('hidden');
+  });
+
+  btn2.addEventListener('click', () => {
+    div1.classList.add('hidden');
+    div2.classList.remove('hidden');
+  });
+
+  div2.classList.add('hidden');
+</script>
+
+
+
+</body>
+</html>
 
 
 

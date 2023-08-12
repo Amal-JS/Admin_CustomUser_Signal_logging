@@ -13,10 +13,11 @@ class Custom_User(models.Model):
     img= models.ImageField(upload_to="user_profile_pic/" ,blank=True,null=True)
     phone_number= models.IntegerField(blank=True,null=True)
     email = models.EmailField(blank=True,null=True)
-    is_super_user = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     last_login = models.DateTimeField(null=True, blank=True)
+    is_authenticated =models.BooleanField(default=False)
 
     def __str__(self):
         return self.username

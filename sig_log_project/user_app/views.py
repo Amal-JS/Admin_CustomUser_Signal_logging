@@ -3,7 +3,7 @@ from . import forms
 from django.contrib import messages
 from .models import Custom_User
 from django.shortcuts import render
-from django.contrib.auth import login,logout
+from django.contrib.auth import login,logout,authenticate
 
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -45,7 +45,17 @@ def user_login(request):
 
         username = request.POST['username']
         password = request.POST['password']
-        
+
+        user = authenticate(username=username,password=password)
+        if user is not None:
+            login(request,user)
+            return redirect('user_app:home')
+        else:
+            messages.info(request,'Invalid credentials')
+
+
+        """before creating custom auth backend"""
+        '''
         try :
             user = Custom_User.objects.get(username = username)
             #this method hashes the given password in the login form and checks the hashed password in the database 
@@ -60,7 +70,9 @@ def user_login(request):
                 messages.info(request,'Invalid credentials')
 
         except ObjectDoesNotExist:
-            messages.error(request,"User doen't exist")
+            messages.error(request,"User doen't exist")'''
+        
+        
             
     return render(request,'user_app/user_login.html')
 
