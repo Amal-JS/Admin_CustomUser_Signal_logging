@@ -1,13 +1,13 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate,login,logout 
 from django.contrib import messages
-
+from django.views.decorators.cache import never_cache
 from user_app.models import Custom_User
 from . forms import Admin_User_Update_form,Admin_User_Create_form
 from . models import LogUser
 
 # Create your views here.
-
+@never_cache
 def home(request):
     if not request.user.is_superuser:
         return redirect('admin_app:admin_login')
@@ -20,6 +20,16 @@ def home(request):
         
     return render(request,'admin_app/home.html',{'users':users,'log_users_info':log_user_info})
 
+def search(request):
+     if 'search_word' in request.POST:
+         word = request.POST['search_word']
+         users= Custom_User.objects.filter(username__contains=word)
+         log_user_info = LogUser.objects.all()
+         request.search='true'
+         return render(request,'admin_app/home.html',{'users':users,'log_users_info':log_user_info})
+
+     return redirect('admin_app:admin_home')
+    
 
 def admin_login(request):
 
@@ -77,14 +87,14 @@ def admin_login(request):
 def admin_logout(request):
     logout(request)
     request.session.flush()
-    print(request.session.user)
+    
     return redirect('admin_app:admin_home')
     
 
 
 def admin_create_user(request):
     if request.method == 'POST':
-        form = Admin_User_Create_form(request.POST,request.FILES)
+        form = Admin_User_Create_form(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
            #we want to hash the password before saving it into the db
@@ -112,7 +122,7 @@ def admin_update_user(request,id):
 
     if request.method == 'POST':
 
-        form = Admin_User_Update_form(request.POST,request.FILES,instance = user_instance)
+        form = Admin_User_Update_form(request.POST,instance = user_instance)
         if form.is_valid():
             form.save()
             return redirect('admin_app:admin_home')

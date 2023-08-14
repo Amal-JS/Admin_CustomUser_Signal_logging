@@ -53,10 +53,11 @@ class Admin_User_Create_form(forms.ModelForm):
     #to get password input , use widget and specified passwordinput it like an argument
     
     password2 = forms.CharField(max_length=30 ,label ='Confirm Password' ,widget=forms.PasswordInput(attrs={'placeholder':'Confirm Password'}))
+    is_superuser = forms.BooleanField(label='Super User', widget=forms.CheckboxInput(attrs={'class': 'mx-2',}),required=False)
 
     class Meta:
         model = Custom_User
-        fields = ['username', 'password','password2', 'phone_number', 'email']
+        fields = ['username', 'password','password2','is_superuser', 'phone_number', 'email']
         widgets = {
             'password': forms.PasswordInput(attrs={'type': 'password','placeholder':'Enter Password'}),
 

@@ -46,13 +46,30 @@
                 <h2 class="text-white">Admin </h2>
 
             </div>
-            <div class=" col-12 d-flex justify-content-between">
+            <div class=" col-12 d-flex justify-content-between mt-5">
               <a class="btn btn-primary text-white">Administrator Name : {{request.user.username}}</a>
-              <a class="btn btn-danger" href="{% url 'admin_app:admin_login' %}">Logout</a>
+
+
+              <form method="post" class="d-flex " style="height:2.5rem" action="{% url 'admin_app:search' %}">
+                {% csrf_token %}
+                <div class="mb-3 mx-1">
+                  
+                  <input type="text" class="form-control "  style="height:2.5rem" name="search_word" placeholder="Search Users">
+                </div>
+                
+                <button type="submit" class="btn btn-white " style="height:2.5rem;margin-left:25px;background-color: white;">Go</button>
+              </form>
+
+
+              <a class="btn btn-danger" href="{% url 'admin_app:admin_logout' %}">Logout</a>
             </div>
         </div>
 
+
+</div>
         <div class="row d-flex justify-content-between p-3">
+
+          
             <div class="col-2">
 
                 
@@ -60,7 +77,7 @@
                 <div class="p-3"><button id="btn2" class="btn btn-light option">Log</button></div>
               </div>
                 
-             
+            
 
             <div class="col-9 main-div">
 
@@ -92,7 +109,7 @@
             <td>{{user.username}}</td>
             <td>{{user.phone_number}}</td>
             <td>{{user.email}}</td>
-            <td>{{user.is_super_user}}</td>
+            <td>{{user.is_superuser}}</td>
             <td>{{user.updated}}</td>
             <td>{{user.created}}</td>
             <td class="d-flex justify-content-between"> <a href="{% url 'admin_app:admin_update_user' user.id %}" class="btn btn-warning mx-1">Update</a>
@@ -102,9 +119,13 @@
             
   
           </tr>
-  
-          {% endfor %}
           
+          {% endfor %}
+          {% else %}
+        <tr>
+            <td colspan="8"><h2 class="text-dark">No users...</h2></td>
+        </tr>
+
   
           {% endif %}
   </tbody>

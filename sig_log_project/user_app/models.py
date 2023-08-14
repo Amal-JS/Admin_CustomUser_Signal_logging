@@ -10,7 +10,7 @@ class Custom_User(models.Model):
 
     username = models.CharField(max_length=30,unique=True)
     password = models.CharField(max_length=30)
-    img= models.ImageField(upload_to="user_profile_pic/" ,blank=True,null=True)
+    
     phone_number= models.IntegerField(blank=True,null=True)
     email = models.EmailField(blank=True,null=True)
     is_superuser = models.BooleanField(default=False)

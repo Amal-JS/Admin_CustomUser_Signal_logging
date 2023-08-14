@@ -10,14 +10,14 @@ Create Account
 
 {{ field.errors }}
 {{ form.non_field_errors }}
-<form method="POST" enctype="multipart/form-data" >
+<form method="POST"  >
     {% csrf_token %}
  
     {% for field in form %}
 
     <div class="form-group m-3 d-flex">
         
-        {{ field }} {% if field.name == 'is_super_user' %}   {{field.label}} {% endif %}
+        {{ field }} {% if field.name == 'is_superuser' %}   {{field.label}} {% endif %}
     </div>
     {{ form.field.errors }}
         {% if field.errors %}
